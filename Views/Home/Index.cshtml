@@ -1,0 +1,39 @@
+﻿@model DemoBoard.Models.PostViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="mx-auto" style="max-width: 400px;">
+    <form asp-controller="home" asp-action="post" asp-antiforgery="true">
+        <div class="form-group row">
+            <label for="name">名前</label>
+            <div class="col-md-8">
+                <input name="name" id="name" type="text" value="" class="form-control" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="text">内容</label>
+            <div class="col-md-8">
+                <textarea name="text" id="text" type="text" value="" class="form-control" required></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">投稿</button>
+    </form>
+    @foreach ( var item in Model.postList.Reverse<PostModel>() )
+    {
+        <hr width="450" />
+        <div class="form-group row">
+            @Html.DisplayFor( modelItem => item.name )
+            <label for="text">　</label>
+            @Html.DisplayFor( modelItem => item.postDate )
+        </div>
+        <div class="form-group row">
+            @Html.Raw( item.text )
+        </div>
+        <div class="form-group row">
+            [<a asp-action="Edit" asp-route-id="@item.Id">編集</a>] |
+            [<a asp-action="Delete" asp-route-id="@item.Id">削除</a>]
+        </div>
+    }
+</div>
